@@ -1,0 +1,6 @@
+{
+  "name": "Liquid Logic: Energy Flow",
+  "description": "A premium 2.5D physics-based puzzle game where players guide elemental Energy Liquid into containers using physics lines, interactive machines, portals, lasers, and AI-validated levels.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
