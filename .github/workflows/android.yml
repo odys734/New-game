@@ -12,14 +12,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v5
 
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
           node-version: 24
-          cache: npm
 
       - name: Setup Java
         uses: actions/setup-java@v5
@@ -27,16 +26,16 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Build Web App
+      - name: Build web app
         run: npm run build
 
-      - name: Sync Capacitor
+      - name: Capacitor Sync
         run: npx cap sync android
 
-      - name: Make Gradle Executable
+      - name: Grant Gradle Permission
         run: chmod +x android/gradlew
 
       - name: Build Debug APK
