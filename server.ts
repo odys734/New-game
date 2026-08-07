@@ -41,6 +41,15 @@ async function startServer() {
   app.post('/api/gemini/generate-level', async (req, res) => {
     try {
       const { theme, difficulty, energyTypes } = req.body;
+
+      // Validate input
+      if (!theme && !difficulty && !energyTypes) {
+        return res.status(400).json({
+          success: false,
+          error: 'At least one parameter (theme, difficulty, or energyTypes) is required',
+        });
+      }
+
       const ai = getGenAI();
 
       const prompt = `Generate a single-screen 2.5D physics puzzle level for "Liquid Logic: Energy Flow".
@@ -86,7 +95,7 @@ Return ONLY JSON adhering strictly to this format:
 }`;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.6-flash',
+        model: 'gemini-2.0-flash',
         contents: prompt,
         config: {
           responseMimeType: 'application/json',
@@ -94,6 +103,14 @@ Return ONLY JSON adhering strictly to this format:
       });
 
       const rawText = response.text || '{}';
+      
+      if (!rawText || rawText.trim() === '{}') {
+        return res.status(500).json({
+          success: false,
+          error: 'Empty response from Gemini API',
+        });
+      }
+
       const levelData = JSON.parse(rawText);
       res.json({ success: true, level: levelData });
     } catch (err: any) {
@@ -109,6 +126,15 @@ Return ONLY JSON adhering strictly to this format:
   app.post('/api/gemini/hint', async (req, res) => {
     try {
       const { levelData, playerAttempt } = req.body;
+
+      // Validate input
+      if (!levelData) {
+        return res.status(400).json({
+          success: false,
+          error: 'levelData is required in request body',
+        });
+      }
+
       const ai = getGenAI();
 
       const prompt = `You are the master puzzle hint advisor for the mobile game "Liquid Logic: Energy Flow".
@@ -132,7 +158,7 @@ Return JSON:
 }`;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.6-flash',
+        model: 'gemini-2.0-flash',
         contents: prompt,
         config: {
           responseMimeType: 'application/json',
@@ -140,6 +166,14 @@ Return JSON:
       });
 
       const rawText = response.text || '{}';
+
+      if (!rawText || rawText.trim() === '{}') {
+        return res.status(500).json({
+          success: false,
+          error: 'Empty response from Gemini API',
+        });
+      }
+
       const hintData = JSON.parse(rawText);
       res.json({ success: true, hints: hintData });
     } catch (err: any) {
