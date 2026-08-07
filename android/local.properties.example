@@ -1,0 +1,14 @@
+# Rename this file to "local.properties" for LOCAL builds only (Android Studio / local Gradle CLI).
+# Do NOT commit an actual local.properties file — it is machine-specific and already
+# excluded via android/.gitignore. GitHub Actions does not need this file; the
+# Android SDK is preinstalled on the runner and exposed via the ANDROID_HOME /
+# ANDROID_SDK_ROOT environment variables instead.
+
+## Location of the Android SDK on your machine, e.g.:
+# Windows:
+# sdk.dir=C\:\\Users\\YourName\\AppData\\Local\\Android\\Sdk
+# macOS:
+# sdk.dir=/Users/YourName/Library/Android/sdk
+# Linux:
+# sdk.dir=/home/YourName/Android/Sdk
+sdk.dir=/path/to/your/Android/Sdk
